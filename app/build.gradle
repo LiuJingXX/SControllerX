@@ -1,0 +1,215 @@
+/*
+ * LEAPS - Low Energy Accurate Positioning System.
+ *
+ * Copyright (c) 2016-2017, LEAPS. All rights reserved.
+ */
+apply plugin: 'com.android.application'
+
+buildscript {
+    // need this in order for the fabric to have the project built properly
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        // here is the list of all versions: https://s3.amazonaws.com/fabric-artifacts/public/io/fabric/tools/gradle/maven-metadata.xml
+        classpath 'io.fabric.tools:gradle:1.25.4'
+    }
+    configurations.classpath.exclude group: 'com.android.tools.external.lombok'
+}
+
+// specifically (only) this mobile project needs fabric
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+    maven {
+        url 'https://maven.google.com/'
+        name 'Google'
+    }
+
+    maven {
+        url "https://repo.eclipse.org/content/repositories/paho-releases/"
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.jakewharton.butterknife'
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// groovy helper function - to get build time
+import java.text.SimpleDateFormat
+
+ext.getTime = { ->
+    def date = new Date()
+    return new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(date)
+}
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+
+android {
+    compileSdkVersion Integer.parseInt(project.SDK_VERSION_TARGET)
+    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
+    defaultConfig {
+        applicationId "com.decawave.argomanager"
+        minSdkVersion Integer.parseInt(project.SDK_VERSION_MIN)
+        targetSdkVersion Integer.parseInt(project.SDK_VERSION_TARGET)
+        versionCode Integer.parseInt(project.APP_VERSION_CODE)
+        versionName project.APP_VERSION_NAME
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "6g"
+    }
+    signingConfigs {
+        debug {
+            storeFile file(System.getProperty("user.home") + '/.android/debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+        release {
+            storeFile file(System.getProperty("user.home") + '/.android/debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            buildConfigField "String", "BUILD_TIME", "\"" + getTime() + "\""
+        }
+        debug {
+            minifyEnabled false
+            buildConfigField "String", "BUILD_TIME", "\"" + getTime() + "\""
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+def dagger_version = "2.9"
+//def butterknife_version = "8.5.1"
+def butterknife_version = "9.0.0-rc1"
+
+dependencies {
+    implementation project(path: ':argo-api')
+    // android-commons
+
+    //compile 'com.android.support:support-v4:24.2.1'
+
+//    releaseCompile project(path: ':android-commons', configuration: 'release')
+//    debugCompile project(path: ':android-commons', configuration: 'debug')
+    implementation project(path: ':android-commons')
+    // android-dialogs
+//    releaseCompile project(path: ':android-dialogs', configuration: 'release')
+//    debugCompile project(path: ':android-dialogs', configuration: 'debug')
+    implementation project(path: ':android-dialogs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    // To solve android resource linking failed
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+
+    // flexible adapter
+    implementation 'eu.davidea:flexible-adapter:5.0.0-rc2'
+    implementation 'eu.davidea:flexible-adapter-databinding:1.0.0-b1@aar'
+    // FlipView
+    implementation 'eu.davidea:flipview:1.1.3'
+    // dagger
+    implementation "com.google.dagger:dagger:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+    compileOnly 'javax.annotation:jsr250-api:1.0'
+    // butterknife
+    implementation "com.jakewharton:butterknife:$butterknife_version"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife_version"
+    // other
+    implementation 'com.github.nisrulz:sensey:1.5.1'
+    implementation 'com.android.support:appcompat-v7:' + project.ANDROID_SUPPORT_LIBRARY_VERSION
+    implementation 'com.android.support:support-v4:' + project.ANDROID_SUPPORT_LIBRARY_VERSION
+    implementation 'com.android.support:design:' + project.ANDROID_SUPPORT_LIBRARY_VERSION
+    implementation 'com.android.support:cardview-v7:' + project.ANDROID_SUPPORT_LIBRARY_VERSION
+    implementation 'com.google.code.gson:gson:2.7'
+    implementation 'com.annimon:stream:1.1.7'
+    implementation 'org.apache.commons:commons-collections4:4.1'
+    implementation 'org.apache.commons:commons-lang3:3.5'
+    implementation 'commons-io:commons-io:2.5'
+    implementation 'com.afollestad.material-dialogs:core:0.9.4.2'
+    implementation('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
+        transitive = true;
+    }
+    // https://mvnrepository.com/artifact/io.reactivex/rxjava
+    implementation 'io.reactivex:rxjava:1.3.8'
+    compileOnly 'org.jetbrains:annotations:17.0.0'
+    implementation 'com.google.guava:guava:24.1-android'
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.7.22'
+    // multidex
+
+    implementation('com.android.support:multidex:1.0.1') {
+        //exclude group: 'com.android.support', module: 'support-v4:25.4.0'
+        //exclude group: 'com.android.support', module: 'support-v13'
+        exclude group: 'com.android.support', module: 'support-v13:28.0.0'
+    }
+
+    //androidTestCompile 'com.android.support.test:runner:0.2'
+
+//    androidTestImplementation ('com.android.support.test:runner:1.0.1',{
+//        exclude group: 'com.android.support', module: 'support-v13:25.3.0'
+//    }
+//    )
+    implementation 'com.ashokvarma.android:bottom-navigation-bar:2.0.4'
+    implementation 'com.squareup.okhttp3:okhttp:3.6.0'
+    //悬浮按钮
+    implementation 'com.melnykov:floatingactionbutton:1.3.0'
+    implementation 'com.getbase:floatingactionbutton:1.10.1'
+    implementation 'com.github.thinkcool:circletextimageview:1.0.20151218'
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
+    //收索
+    implementation 'com.github.mancj:MaterialSearchBar:0.8.2'
+    //加密
+    implementation files('libs/javabase64-1.3.1.jar')
+    //implementation 'com.alibaba:fastjson:1.2.3'
+    //implementation files('libs/fastjson-1.2.3.jar')
+    //mqtt
+    implementation('org.eclipse.paho:org.eclipse.paho.android.service:1.0.2') {
+        exclude module: 'support-v4'
+    }
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.1'
+
+    //eventbus
+    implementation 'org.greenrobot:eventbus:3.0.0'
+    // http
+    implementation 'com.squareup.okhttp3:okhttp:3.7.0'
+    implementation 'com.squareup.okio:okio:1.12.0'
+    // JSON parser1
+    implementation 'com.google.code.gson:gson:2.7'
+    implementation 'com.zhy:autolayout:1.4.5'
+    //hook
+    implementation 'de.robv.android.xposed:api:82'
+    implementation 'de.robv.android.xposed:api:82:sources'
+
+
+}
+
+// 去除所有的support-v13
+configurations {
+    all*.exclude group: 'com.android.support', module: 'support-v13'
+}
+
+retrolambda {
+    jvmArgs '-noverify'
+}

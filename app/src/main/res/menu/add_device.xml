@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/item_add"
+        android:title="设备发现"/>
+    <item android:id="@+id/item_location"
+        android:title="设备管理"/>
+    <item android:id="@+id/item_map"
+        android:title="设备定位"/>
+</menu>

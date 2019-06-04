@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/camera_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="800dp"
+            android:layout_gravity="center">
+
+            <View
+                android:layout_width="400dp"
+                android:layout_height="400dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_circle" />
+
+            <View
+                android:layout_width="150dp"
+                android:layout_height="2dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="170dp"
+                android:background="@color/black" />
+
+            <View
+                android:layout_width="150px"
+                android:layout_height="2dp"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="170px"
+                android:background="@color/black" />
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="150px"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="170px"
+                android:background="@color/black" />
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="150px"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginBottom="170px"
+                android:background="@color/black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="+"
+                android:textColor="#FC0505"
+                android:textSize="50px" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/information"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top"
+            android:layout_margin="120px"
+            android:background="@drawable/video_dialog_progress_bg"
+            android:gravity="center"
+            android:padding="16px"
+            android:textColor="#ffffff"
+            tools:text="请将十字对准设备在地面的投影"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/deviceLocation"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top"
+            android:layout_margin="220px"
+            android:background="@drawable/video_dialog_progress_bg"
+            android:gravity="center"
+            android:padding="16px"
+            android:textColor="#ffffff"
+            tools:text="当前十字坐标是"
+            tools:visibility="visible" />
+
+
+        <TextView
+            android:id="@+id/confirm_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="100px"
+            android:background="@drawable/video_dialog_progress_bg"
+            android:padding="16px"
+            android:textColor="#ffffff"
+            tools:text="设备位置在"
+            tools:visibility="visible" />
+        <TextView
+            android:id="@+id/distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="200px"
+            android:background="@drawable/video_dialog_progress_bg"
+            android:padding="16px"
+            android:textColor="#ffffff"
+            tools:text="与所测物体相距：5m" />
+        <Button
+            android:id="@+id/button_confim"
+            android:text="定位设备"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="300px"
+            android:padding="16px"
+            android:textColor="#ffffff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+
+    </FrameLayout>
+</android.support.constraint.ConstraintLayout>

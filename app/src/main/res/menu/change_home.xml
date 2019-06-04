@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/exit"
+        android:title="实验室"/>
+    <item android:id="@+id/set"
+        android:title="402"/>
+    <item android:id="@+id/account"
+        android:title="家庭管理"/>
+</menu>

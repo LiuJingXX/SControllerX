@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.decawave.argomanager">
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- write external storage -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- vibrate -->
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- bluetooth -->
+    <uses-permission android:name="android.permission.BLUETOOTH" /> <!-- we want to be able to initiate a BLE connection -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" /> <!-- this is again related to BLE -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- this is again related to BLE -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- internet permission -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- restrict offering this app to BLE devices only -->
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" /> <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:name=".ArgoApp"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:allowBackup">
+
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true" />
+        <meta-data
+            android:name="xposeddescription"
+            android:value="Boink. Sample Module which will replace everything in codepath demo app to Boink " />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="54" />
+        <activity android:name=".scontroller.activity.devices.MeasureDistActivity"></activity>
+        <activity
+            android:name=".ui.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="nosensor"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize"></activity>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.decawave.argomanager.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="0f517e9224f309d90d822e1f8b2edb5bfda53c49" />
+
+        <activity
+            android:name=".scontroller.LoginActivity"
+            android:label="@string/title_activity_login">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".scontroller.ScMainActivity" />
+        <activity android:name=".scontroller.StartActivity" />
+        <activity
+            android:name=".scontroller.activity.BaseActivity"
+            android:label="@string/title_activity_base"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".scontroller.activity.devices.AddDeviceActivity" />
+        <activity android:name=".scontroller.activity.devices.NewDeviceDetailActivity" /> <!-- <activity android:name=".scontroller.activity.devices.NewDeviceListFragment" /> -->
+        <activity android:name=".scontroller.activity.devices.NewDeviceManageActivity" />
+        <activity android:name=".scontroller.activity.tasks.ServiceListActivity" />
+        <activity android:name=".scontroller.activity.tasks.TasksWorkflowActivity" />
+        <activity android:name=".scontroller.activity.tasks.TasksWorkflowD3Activity" />
+        <meta-data
+            android:name="design_width"
+            android:value="768" />
+        <meta-data
+            android:name="design_height"
+            android:value="1280" />
+    </application>
+
+</manifest>

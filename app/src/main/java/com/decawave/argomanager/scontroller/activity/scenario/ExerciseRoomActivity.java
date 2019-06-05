@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.decawave.argomanager.R;
 import com.decawave.argomanager.scontroller.http.HttpUtil;
+import com.decawave.argomanager.scontroller.util.TagPosition;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,6 +25,7 @@ import okhttp3.Response;
 
 public class ExerciseRoomActivity extends AppCompatActivity {
     private Button mButton;
+    private Button mButtonPos;
     private TextView mTextView;
     private EditText mEditText;
     private final String TAG="ExerciseRoomActivity";
@@ -87,6 +89,14 @@ public class ExerciseRoomActivity extends AppCompatActivity {
                 }
             }
         });
+        mButtonPos.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                TagPosition tagPosition = new TagPosition();
+                tagPosition.configureGridView();
+                tagPosition.load();
+            }
+        });
     }
 
     private void getRoomState(String roomNumber) {
@@ -110,6 +120,8 @@ public class ExerciseRoomActivity extends AppCompatActivity {
         mButton = findViewById(R.id.button_exercise_room);
         mTextView = findViewById(R.id.textView_exercise_room);
         mEditText = findViewById(R.id.editText_exerciseroom);
+
+        mButtonPos = findViewById(R.id.button_exercise_room_getposition);
     }
 }
 

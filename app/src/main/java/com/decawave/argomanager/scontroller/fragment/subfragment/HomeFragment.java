@@ -19,6 +19,7 @@ import com.decawave.argomanager.R;
 import com.decawave.argomanager.scontroller.activity.devices.AddDeviceActivity;
 import com.decawave.argomanager.scontroller.activity.devices.NewDeviceListFragment;
 import com.decawave.argomanager.scontroller.activity.devices.NewDeviceManageActivity;
+import com.decawave.argomanager.scontroller.activity.scenario.ExerciseRoomActivity;
 import com.decawave.argomanager.scontroller.adapter.HomeDeviceViewPagerAdapter;
 import com.decawave.argomanager.scontroller.fragment.devicefragment.DeviceWebFragment;
 import com.decawave.argomanager.scontroller.fragment.devicefragment.DeviceWebFragment1;
@@ -151,6 +152,10 @@ public class HomeFragment extends Fragment {
                             case R.id.item_map:
                                 Intent intent2 = new Intent(getContext(), MainActivity.class);
                                 startActivity(intent2);
+                                break;
+                            case R.id.item_exercise_room:
+                                Intent intent3 = new Intent(getContext(), ExerciseRoomActivity.class);
+                                startActivity(intent3);
                                 break;
                             default:
                                 break;

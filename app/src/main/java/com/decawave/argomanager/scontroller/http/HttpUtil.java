@@ -27,6 +27,16 @@ public class HttpUtil {
     private static final MediaType MEDIA_TYPE_JPEG = MediaType.parse("image/jpeg");
     private static final MediaType MEDIA_TYPE_XML = MediaType.parse("text/xml; charset=utf-8");
 
+    //Get请求，通用
+    public void doGet(String serviceURL,okhttp3.Callback callback){
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .addHeader("Content-Type","application/json")
+                .url(serviceURL)
+                .build();
+        client.newCall(request).enqueue(callback);
+    }
+
     //Get请求，获取HASS设备列表
     public void getHASSApiState(String serviceURL,String hassPwd, okhttp3.Callback callback){
         OkHttpClient client = new OkHttpClient();

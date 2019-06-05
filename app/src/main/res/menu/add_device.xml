@@ -5,5 +5,7 @@
     <item android:id="@+id/item_location"
         android:title="设备管理"/>
     <item android:id="@+id/item_map"
-        android:title="设备定位"/>
+    android:title="设备定位"/>
+    <item android:id="@+id/item_exercise_room"
+        android:title="锻炼屋场景"/>
 </menu>

@@ -33,6 +33,7 @@ import java.util.Map;
  *
  * Get notified about network changes via {@link IhPersistedNodeChangeListener}
  */
+
 public interface NetworkNodeManager {
 
     /**

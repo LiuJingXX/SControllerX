@@ -61,7 +61,7 @@ public class NetworksNodesStorageImpl implements NetworksNodesStorage {
     private final Gson GSON = new Gson();
 
     @Inject
-    NetworksNodesStorageImpl() {
+    public NetworksNodesStorageImpl() {
     }
 
 

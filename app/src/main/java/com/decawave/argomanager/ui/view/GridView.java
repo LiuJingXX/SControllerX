@@ -80,6 +80,8 @@ import static com.decawave.argomanager.ui.DisplayMetrics.LCD_DIP_SCALING_FACTOR;
 public class GridView extends View {
 
     private static final boolean DEBUG = false;
+
+    public static TagNode tag_node = null;
     @SuppressWarnings("PointlessBooleanExpression")
     private static final boolean DEBUG_DRAW_NODE = DEBUG && false;
     @SuppressWarnings("PointlessBooleanExpression")
@@ -469,7 +471,7 @@ public class GridView extends View {
         drawFloorPlanVirtualMatrix.set(drawFloorPlanMatrix);
     }
 
-    private void initNodeSet(List<NetworkNode> initialNodeSet) {
+    public void initNodeSet(List<NetworkNode> initialNodeSet) {
         nodesById = new HashMap<>();
         avgNodesById = new HashMap<>();
         // nodes sorted by z-axis
@@ -495,6 +497,7 @@ public class GridView extends View {
             networkNode = NodeFactory.newNodeCopy(networkNode);
             // initial fill with position (if any)
             if (networkNode.isTag()) {
+
                 initTagAvg(networkNode);
             }
             // now organize
@@ -701,6 +704,7 @@ public class GridView extends View {
         int tagAlpha = 0;
         for (NetworkNode node : nodesByZAxis) {
             if (node.isTag()) {
+
                 if (tagPresenceResolver.apply(node.getBleAddress())) {
                     tagAlpha = 255;
                 } else {
@@ -917,8 +921,11 @@ public class GridView extends View {
         }
     }
 
-    private Position getNodePosition(NetworkNode networkNode) {
+    public Position getNodePosition(NetworkNode networkNode) {
         Position p;
+//        if(networkNode.getType() == NodeType.TAG){
+//            tag_node = (TagNode) networkNode;
+//        }
         if (networkNode.getType() == NodeType.TAG && showAverageSupplier.get()) {
             p = avgNodesById.get(networkNode.getId()).averagep();
                 // this might still return null

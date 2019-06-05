@@ -680,7 +680,7 @@ public class GridFragment extends MainScreenFragment implements IhPresenceApiLis
         configureGridView();
     }
 
-    private void configureGridView() {
+    public void configureGridView() {
         if (networkNodeManager.getActiveNetwork() != null) {
             grid.setDependencies(Stream.of(networkNodeManager.getActiveNetworkNodes())
                             // filter

@@ -13,6 +13,7 @@ import com.decawave.argomanager.components.DiscoveryManager;
 import com.decawave.argomanager.components.NetworkNodeManager;
 import com.decawave.argomanager.components.impl.UniqueReorderingStack;
 import com.decawave.argomanager.debuglog.ApplicationComponentLog;
+import com.decawave.argomanager.scontroller.util.TagPosition;
 import com.decawave.argomanager.ui.MainActivity;
 import com.decawave.argomanager.ui.dialog.NetworkPickerDialogFragment;
 import com.decawave.argomanager.ui.dialog.RenameNetworkDialogFragment;
@@ -58,6 +59,8 @@ public interface ArgoComponent {
     void inject(DebugLogBufferFragment fragment);
 
     void inject(GridFragment fragment);
+
+    void inject(TagPosition tagPosition);
 
     void inject(OverviewFragment fragment);
 

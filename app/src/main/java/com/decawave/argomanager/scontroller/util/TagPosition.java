@@ -60,6 +60,9 @@ public class TagPosition extends AbstractArgoFragment {
     private NetworksNodesStorage storage = new NetworksNodesStorageImpl();
     private Map<Long, TagAvg> avgNodesById;
     private Map<Long, NetworkNode> nodesById;
+    private Position tagPosition_;
+    private NetworkNode tagNode_=null;
+    public static Map<String,Double> map = new HashMap<>(3);
 
     //
     private Function<Short, NetworkNode> networkNodeByShortIdResolver;
@@ -207,20 +210,8 @@ public class TagPosition extends AbstractArgoFragment {
     }
     
     public void init(){
-//        initNodeSet();
     }
 
-    //    public class NetworkRunner{
-//        private NetworkNodeManager networkNodeManager;
-//
-//        public void setI(NetworkNodeManager networkNodeManager){
-//            this.networkNodeManager = networkNodeManager;
-//        }
-//
-//        public NetworkNodeEnhanced call(int id){
-//            return networkNodeManager.getNode(id);
-//        }
-//    }
     public void initNodeSet(List<NetworkNode> initialNodeSet) {
         nodesById = new HashMap<>();
         avgNodesById = new HashMap<>();
@@ -231,12 +222,15 @@ public class TagPosition extends AbstractArgoFragment {
             networkNode = NodeFactory.newNodeCopy(networkNode);
             // initial fill with position (if any)
             if (networkNode.isTag()) {
-
                 initTagAvg(networkNode);
             }
             // now organize
             Position p = getNodePosition(networkNode);
-            Log.d(TAG, "[LOCATION_NODE]: x="+p.x+" y="+p.y+"z="+p.z+"\n");
+            if (p!=null && networkNode.isTag()){
+                tagNode_ = networkNode;
+                tagPosition_ = p;
+                Log.d(TAG, "[LOCATION_NODE]: x="+p.x+" y="+p.y+"z="+p.z+"\n");
+            }
             //if (p != null) nodesByZAxis.add(networkNode);
             nodesById.put(networkNode.getId(), networkNode);
         });
@@ -257,7 +251,25 @@ public class TagPosition extends AbstractArgoFragment {
         } else {
             p = networkNode.extractPositionDirect();
         }
+
         return p;
+    }
+
+    public Position getTagLocation(){
+//        map.put("x_location",0.0);
+//        map.put("y_location",0.0);
+//        map.put("z_location",0.0);
+        networkModel = networkModel;
+        if(tagNode_ != null){
+            Position p = getNodePosition(tagNode_);
+            String tmp = "x: "+p.x+"y: "+p.y+"z: "+p.z;
+            Log.d(TAG, "getTagLocation: "+tmp);
+            return p;
+        }else{
+            return null;
+        }
+
+
     }
 
     public void configureGridView() {
@@ -335,25 +347,25 @@ public class TagPosition extends AbstractArgoFragment {
         return presenceApi.isTagTrackedDirectly(bleAddress) || presenceApi.isTagTrackedViaProxy(bleAddress);
     }
 
-    public boolean showNode(NetworkNodeEnhanced nne) {
-        NetworkNode plainNode = nne.asPlainNode();
-        return isNodeTracked(plainNode.getType(), plainNode.extractPositionDirect(), nne.getTrackMode(), plainNode.getUwbMode(), appPreferenceAccessor.getShowAverage());
-    }
-
-    public static boolean isNodeTracked(NodeType nodeType,
-                                        Position positionNow,
-                                        TrackMode trackMode,
-                                        UwbMode uwbMode, boolean tagPositionCanBeNull) {
-        return ((tagPositionCanBeNull && nodeType == NodeType.TAG) || positionNow != null)
-                // active
-                && uwbMode == UwbMode.ACTIVE
-                && (
-                // tracked tags
-                (nodeType == NodeType.TAG && trackMode.tracked)
-                        ||
-                        // anchors
-                        (nodeType == NodeType.ANCHOR));
-    }
+//    public boolean showNode(NetworkNodeEnhanced nne) {
+//        NetworkNode plainNode = nne.asPlainNode();
+//        return isNodeTracked(plainNode.getType(), plainNode.extractPositionDirect(), nne.getTrackMode(), plainNode.getUwbMode(), appPreferenceAccessor.getShowAverage());
+//    }
+//
+//    public static boolean isNodeTracked(NodeType nodeType,
+//                                        Position positionNow,
+//                                        TrackMode trackMode,
+//                                        UwbMode uwbMode, boolean tagPositionCanBeNull) {
+//        return ((tagPositionCanBeNull && nodeType == NodeType.TAG) || positionNow != null)
+//                // active
+//                && uwbMode == UwbMode.ACTIVE
+//                && (
+//                // tracked tags
+//                (nodeType == NodeType.TAG && trackMode.tracked)
+//                        ||
+//                        // anchors
+//                        (nodeType == NodeType.ANCHOR));
+//    }
 
     private void onLoadedFromStorage(Collection<NetworkNodeEnhanced> nodeList, Collection<NetworkModel>networkList){
         String log = "onNetworksLoaded: " + "nodeList = [" + nodeList + "], networkList = [" + networkList + "]";
@@ -371,7 +383,6 @@ public class TagPosition extends AbstractArgoFragment {
         List<NetworkNode> NodeList = stream.toList();
 
         configureGridView();
-        //grid.initNodeSet(NodeList);
 
         if(NodeList.size()==1){
             TagNode tagNode = (TagNode)NodeList.get(0);

@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.decawave.argo.api.struct.Position;
 import com.decawave.argomanager.R;
 import com.decawave.argomanager.scontroller.http.HttpUtil;
 import com.decawave.argomanager.scontroller.util.TagPosition;
@@ -32,6 +33,8 @@ public class ExerciseRoomActivity extends AppCompatActivity {
     private String enabledDeviceList;
     private final String url = "http://10.222.197.120:8080/YancloudDemo_war_exploded/process/execute?location=";
 
+    private TagPosition tagPosition;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +42,7 @@ public class ExerciseRoomActivity extends AppCompatActivity {
 
         initView();
         setListener();
+        tagPosition = new TagPosition();
 
     }
 
@@ -92,9 +96,11 @@ public class ExerciseRoomActivity extends AppCompatActivity {
         mButtonPos.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                TagPosition tagPosition = new TagPosition();
                 tagPosition.configureGridView();
-                tagPosition.load();
+                Position p = tagPosition.getTagLocation();
+                if(p!=null){
+                    Log.d(TAG, "onClick: z坐标"+p.z);
+                }
             }
         });
     }

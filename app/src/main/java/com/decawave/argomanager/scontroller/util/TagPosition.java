@@ -16,6 +16,7 @@ import com.decawave.argo.api.struct.NodeType;
 import com.decawave.argo.api.struct.Position;
 import com.decawave.argo.api.struct.TagNode;
 import com.decawave.argo.api.struct.UwbMode;
+import com.decawave.argomanager.Constants;
 import com.decawave.argomanager.R;
 import com.decawave.argomanager.argoapi.ext.NodeFactory;
 import com.decawave.argomanager.components.BlePresenceApi;
@@ -25,6 +26,7 @@ import com.decawave.argomanager.components.NetworkModel;
 import com.decawave.argomanager.components.NetworkModelManager;
 import com.decawave.argomanager.components.NetworkNodeManager;
 import com.decawave.argomanager.components.NetworksNodesStorage;
+import com.decawave.argomanager.components.PositionObservationManager;
 import com.decawave.argomanager.components.impl.NetworksNodesStorageImpl;
 import com.decawave.argomanager.components.struct.NetworkNodeEnhanced;
 import com.decawave.argomanager.components.struct.TrackMode;
@@ -39,6 +41,7 @@ import com.decawave.argomanager.ui.fragment.AbstractArgoFragment;
 import com.decawave.argomanager.ui.fragment.FragmentType;
 import com.decawave.argomanager.ui.view.FloorPlan;
 import com.decawave.argomanager.ui.view.GridView;
+import com.google.common.base.Preconditions;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -91,13 +94,27 @@ public class TagPosition extends AbstractArgoFragment {
     @Inject
     AppPreferenceAccessor appPreferenceAccessor;
 
+    @Inject
+    PositionObservationManager positionObservationManager;
+
+    private void mkSurePositionObservationRunning() {
+        if (positionObservationManager.isObservingPosition()) {
+            // cancel possible stop
+            positionObservationManager.cancelScheduledPositionObservationStop();
+        } else {
+            // start observing
+            positionObservationManager.startPositionObservation();
+        }
+    }
 
 
     public TagPosition()
     {
         super(FragmentType.GRID);
         injectFrom(IocContext.daCtx);
+        mkSurePositionObservationRunning();
     }
+
     private class TagAvg {
         int idx;
         boolean ready = false;

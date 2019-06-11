@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".scontroller.activity.devices.ManualAddDeviceActivity"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/device_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="设备类别"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/device_company"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="设备品牌"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/device_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="设备名称"
+        android:singleLine="true" />
+
+    <Button
+        android:id="@+id/button_manual_add_device_confirm"
+        android:text="确认添加"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="300px"
+        android:padding="16px"
+        android:textColor="#ffffff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

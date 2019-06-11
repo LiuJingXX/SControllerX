@@ -88,6 +88,7 @@
         <activity android:name=".scontroller.activity.tasks.TasksWorkflowActivity" />
         <activity android:name=".scontroller.activity.tasks.TasksWorkflowD3Activity" />
         <activity android:name=".scontroller.activity.scenario.ExerciseRoomActivity" />
+        <activity android:name=".scontroller.activity.devices.ManualAddDeviceActivity"></activity>
         <meta-data
             android:name="design_width"
             android:value="768" />

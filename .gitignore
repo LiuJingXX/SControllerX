@@ -4,7 +4,7 @@
 .gradle
 /captures
 /local.properties
-/.idea/workspace.xml
+/.idea
 /.idea/libraries
 /.idea/shelf
 .DS_Store
@@ -15,3 +15,4 @@ android-commons/src/main/res/drawable/
 app/libs/
 app/src/main/java/com/decawave/argomanager/app/
 app/src/main/java/com/decawave/argomanager/struct/
+.idea/compiler.xml

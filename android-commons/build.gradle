@@ -20,7 +20,7 @@ apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion Integer.parseInt(project.SDK_VERSION_TARGET)
-    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
+    buildToolsVersion '28.0.3'
     publishNonDefault true
 
     defaultConfig {
@@ -43,8 +43,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
     }
 }
 
